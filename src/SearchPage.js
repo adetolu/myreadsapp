@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 class SearchPage extends Component {
     render() {
         const searchValue= 'Android'
-        const { onKeyUpHandler } = this.props
+        const { mainBooks, onKeyUpHandler, onChangeHandler } = this.props
         // if (this.props.onPageLoad){
             // this.props.onPageLoad(searchValue)
         // }
         const filteredbooks = this.props.books
-
+console.log('mainBooks', mainBooks)
         return (
             <div className="list-books-content">
                 <div>
@@ -19,13 +19,15 @@ class SearchPage extends Component {
                             <ol className="books-grid">
                                 {filteredbooks.length > 0 ?
                                     filteredbooks.map((singlebook) => (
+
                                         <li key={singlebook.id}>
                                             <div className="book">
                                                 <div className="book-top">
                                                     <div className="book-cover"
                                                         style={{ width: 128, height: 193, backgroundImage: `url(${singlebook.imageLinks?singlebook.imageLinks.smallThumbnail:''})` }}></div>
                                                     <div className="book-shelf-changer">
-                                                        <select>
+                                                        <select value={mainBooks.find(o => {return o.title === singlebook.title})
+                                                        ?mainBooks.find(o => {return o.title === singlebook.title}).shelf:'none' } onChange={(event) => onChangeHandler(singlebook, event.target.value)}>
                                                             <option value="move" disabled>Move to...</option>
                                                             <option value="currentlyReading">Currently Reading</option>
                                                             <option value="wantToRead">Want to Read</option>

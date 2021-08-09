@@ -20,7 +20,8 @@ class App extends Component {
     componentDidMount() {
         BooksAPI.getAll().then(singlebook => {
             this.setState(() => ({
-                books: singlebook
+                books: singlebook,
+                rawBooks: []
             }))
             console.log(singlebook)
         })
@@ -39,17 +40,38 @@ class App extends Component {
         })
     }
 
+    updateSearchBook = (book, selectedValue) => {
+        console.log(selectedValue)
+        console.log(book)
+        if (this.state.books.find(o => o.title === book.title)){
+            BooksAPI.update(book, selectedValue).then(singlebook => {
+                this.setState((prevState) => ({
+                    books: prevState.books.map(
+                        el => el.id === book.id? { ...el, shelf: selectedValue }: el
+                      )
+                }))
+                console.log(singlebook)
+            })  
+        } else {
+            this.setState((prevState) => ({
+                books:prevState.books.concat([book])
+            }))
+        }
+        
+    }
+
     searchBook = (searchValue) => {
         console.log(searchValue)
         if(searchValue.trim()!==''){
             BooksAPI.search(searchValue).then(singlebook => {
                 console.log(singlebook)
-                this.setState(() => ({
-                   rawBooks:singlebook
+                this.setState((prevState) => ({
+                   rawBooks:singlebook,
+                   books:prevState.books
                 }))           
             })
         }
-        
+        console.log(this.state.books)
     }
 
     render() {
@@ -73,7 +95,8 @@ class App extends Component {
                 
                 <Route path='/search' render={() =>(
                 // 
-                <SearchPage books={this.state.rawBooks} onKeyUpHandler={this.searchBook} />
+                <SearchPage mainBooks={this.state.books} books={this.state.rawBooks} 
+                onKeyUpHandler={this.searchBook} onChangeHandler={this.updateSearchBook}/>
                  )} />
             </div>
         )
