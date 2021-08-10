@@ -33,7 +33,7 @@ class FirstBookShelf extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="book-title">{singlebook.title}</div>
-                                                <div className="book-authors">{singlebook.authors[0]}</div>
+                                                <div className="book-authors">{singlebook.authors.join(' , ')}</div>
                                             </div>
                                         </li>
                                     )) : <li>No books found</li>

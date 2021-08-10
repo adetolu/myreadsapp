@@ -4,8 +4,6 @@ import { Route } from 'react-router-dom'
 import ListBooks from './ListBooks'
 import * as BooksAPI from './BooksAPI'
 import FirstBookShelf from './FirstBookShelf'
-import SecondBookShelf from './SecondBookShelf'
-import ThirdBookShelf from './ThirdBookShelf'
 import './App.css'
 import SearchPage from './SearchPage'
 
@@ -64,7 +62,8 @@ class App extends Component {
 
     searchBook = (searchValue) => {
         console.log(searchValue)
-        this.state.rawBooks=[]
+      
+        console.log(searchValue.trim())
         if(searchValue.trim()!==''){
             BooksAPI.search(searchValue).then(singlebook => {
                 console.log(singlebook)
@@ -89,16 +88,12 @@ class App extends Component {
                 <ListBooks listbookstitle={this.state.listbookstitle}/>
                 )}/>
 
-                <Route exact path='/' render={() =>(
+<Route exact path='/' render={() =>(
+                <div>
                 <FirstBookShelf books={this.state.books} status="currentlyReading" onChangeHandler={this.updateBook} />
-                )}/>
-                
-                <Route exact path='/' render={() =>(
-                 <FirstBookShelf books={this.state.books} status="wantToRead" onChangeHandler={this.updateBook} />
-                )}/>
-                
-                <Route exact path='/' render={() =>(
+                <FirstBookShelf books={this.state.books} status="wantToRead" onChangeHandler={this.updateBook} />
                 <FirstBookShelf books={this.state.books} status="read" onChangeHandler={this.updateBook} />
+                </div>
                 )}/>
                 
                 <Route path='/search' render={() =>(

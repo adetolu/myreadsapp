@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-class ListBooks extends Component {
-    render() {
+const ListBooks = () => {
         return(        
             <div className="list-books">
             <div className="list-books-title">
@@ -11,6 +10,6 @@ class ListBooks extends Component {
             </div>
             </div>
         )
-        }
+        
 }
 export default ListBooks

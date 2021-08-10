@@ -7,7 +7,7 @@ class SearchPage extends Component {
       }
       updateQuery = (query) => {
         this.setState(() => ({
-          query: query.trim()
+          query: query
         }))
       }
       clearQuery = () => {
@@ -16,11 +16,8 @@ class SearchPage extends Component {
         
     render() {
         const { query } = this.state
-        const searchValue= ''
         const { mainBooks, onKeyUpHandler, onChangeHandler } = this.props
-        // if (this.props.onKeyUpHandler){
-        //     this.props.onKeyUpHandler(searchValue)
-        // }
+        
         console.log(this.props.books)
         const filteredbooks = query===''?[] :this.props.books
 console.log('filteredbooks', filteredbooks)
@@ -55,7 +52,7 @@ console.log('filteredbooks', filteredbooks)
                                                     </div>
                                                 </div>
                                                 <div className="book-title">{singlebook.title}</div>
-                                                <div className="book-authors">{singlebook.authors?singlebook.authors[0]:''}</div>
+                                                <div className="book-authors">{singlebook.authors?singlebook.authors.join(' , '):''}</div>
                                             </div>
                                         </li>
                                     )) : <li>No books found</li>
