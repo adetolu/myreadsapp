@@ -18,6 +18,7 @@ class App extends Component {
         rawBooks:[]
     }
     componentDidMount() {
+        
         BooksAPI.getAll().then(singlebook => {
             this.setState(() => ({
                 books: singlebook,
@@ -33,7 +34,7 @@ class App extends Component {
         BooksAPI.update(book, selectedValue).then(singlebook => {
             this.setState((prevState) => ({
                books: prevState.books.map(
-                    el => el.id === book.id? { ...el, shelf: selectedValue }: el
+                el => el.title === book.title? { ...el, shelf: selectedValue }: el
                   )
             }))
             console.log(singlebook)
@@ -43,11 +44,12 @@ class App extends Component {
     updateSearchBook = (book, selectedValue) => {
         console.log(selectedValue)
         console.log(book)
+        book.shelf = selectedValue
         if (this.state.books.find(o => o.title === book.title)){
             BooksAPI.update(book, selectedValue).then(singlebook => {
                 this.setState((prevState) => ({
                     books: prevState.books.map(
-                        el => el.id === book.id? { ...el, shelf: selectedValue }: el
+                        el => el.title === book.title? { ...el, shelf: selectedValue }: el
                       )
                 }))
                 console.log(singlebook)
@@ -62,6 +64,7 @@ class App extends Component {
 
     searchBook = (searchValue) => {
         console.log(searchValue)
+        this.state.rawBooks=[]
         if(searchValue.trim()!==''){
             BooksAPI.search(searchValue).then(singlebook => {
                 console.log(singlebook)
@@ -70,6 +73,11 @@ class App extends Component {
                    books:prevState.books
                 }))           
             })
+        } else{
+            this.setState((prevState) => ({
+                rawBooks:[],
+                books:prevState.books
+             }))    
         }
         console.log(this.state.books)
     }

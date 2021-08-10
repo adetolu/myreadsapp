@@ -1,20 +1,38 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class SearchPage extends Component {
+    state = {
+        query: ''
+      }
+      updateQuery = (query) => {
+        this.setState(() => ({
+          query: query.trim()
+        }))
+      }
+      clearQuery = () => {
+        this.updateQuery('')
+      }
+        
     render() {
-        const searchValue= 'Android'
+        const { query } = this.state
+        const searchValue= ''
         const { mainBooks, onKeyUpHandler, onChangeHandler } = this.props
-        // if (this.props.onPageLoad){
-            // this.props.onPageLoad(searchValue)
+        // if (this.props.onKeyUpHandler){
+        //     this.props.onKeyUpHandler(searchValue)
         // }
-        const filteredbooks = this.props.books
-console.log('mainBooks', mainBooks)
+        console.log(this.props.books)
+        const filteredbooks = query===''?[] :this.props.books
+console.log('filteredbooks', filteredbooks)
         return (
             <div className="list-books-content">
                 <div>
                     <div className="bookshelf">
+                    <Link to="/">Return to Main Page</Link>
                         <h2 className="bookshelf-title">Search For Books</h2>
-                        <input type ='text' name='search' placeholder='search' onKeyUp={(event)=>onKeyUpHandler(event.target.value)}/>
+                        <input type ='text' name='search' placeholder='search' value= {query} 
+                        onChange={(event) => this.updateQuery(event.target.value)}
+                        onKeyUp={(event)=>onKeyUpHandler(event.target.value)}/>
                         <div className="bookshelf-books">
                             <ol className="books-grid">
                                 {filteredbooks.length > 0 ?
